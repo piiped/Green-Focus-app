@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">green_focus</string>
+    <string-array name="random_texts">
+        <item>stop looking at me for a moment</item>
+        <item>Just a moment and it is done</item>
+        <item>It would be nice to take a break for a bit</item>
+        <item>Take a break from social media to be with yourself.</item>
+        <item>Your tree is as beautiful as you</item>
+        <item>This tree symbolizes your efforts</item>
+        <item>Take time, take action, achieve goals</item>
+    </string-array>
+</resources>
