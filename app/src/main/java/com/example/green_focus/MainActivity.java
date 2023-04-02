@@ -2,6 +2,8 @@ package com.example.green_focus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -20,15 +21,16 @@ public class MainActivity extends AppCompatActivity {
 
     TextView rdText, ttView;
     String[] tArray;
-    Handler handler;
+    Handler handler, alarmHandler;
     Runnable runnable;
     EditText tedText;
-    Button sTB;
+    Button sTB, vhButton;
     MediaPlayer mdPlayer;
     long tLeft;
     AnimationDrawable anmDrawable;
-    ImageView anmImgView;
+    ImageView anmImgView, btHome;
     CountDownTimer cdTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         tedText = findViewById(R.id.timeEditText);
         ttView = findViewById(R.id.timerTextView);
         sTB = findViewById(R.id.startTimerButton);
-        anmImgView = findViewById(R.id.animationImageView);
 
         ttView.setText("00:00");
 
@@ -62,10 +63,29 @@ public class MainActivity extends AppCompatActivity {
                 String timeText = tedText.getText().toString();
                 if (!timeText.isEmpty()) {
                     int timeInMinutes = Integer.parseInt(timeText);
+                    saveTimeData(timeInMinutes); // Save the time data when the timer starts
                     startCountdownTimer(timeInMinutes);
                 }
             }
         });
+
+        btHome = findViewById(R.id.imageView2);
+         btHome.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public  void  onClick(View view) {
+                 startActivity(new Intent(MainActivity.this, MainActivity.class));
+             }
+         });
+        vhButton = findViewById(R.id.vhButton);
+        vhButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+            }
+        });
+
+        alarmHandler = new Handler();
+        loadTimeData();
     }
 
     @Override
@@ -77,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             mdPlayer.release();
             mdPlayer = null;
         }
+        alarmHandler.removeCallbacksAndMessages(null);
     }
     private void startCountdownTimer(int timeInMinutes) {
         long timerDurationMillis = timeInMinutes * 60 * 1000;
@@ -98,13 +119,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
+        anmImgView = findViewById(R.id.animationImageView);
         anmImgView.setBackgroundResource(R.drawable.animation);
         AnimationDrawable anmDrawable = (AnimationDrawable) anmImgView.getBackground();
         anmDrawable.start();
+
     }
+
     private void playAlarmSound(){
         mdPlayer = MediaPlayer.create(this, R.raw.alarm);
         mdPlayer.start();
+
+        alarmHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mdPlayer != null) {
+                    mdPlayer.stop();
+                    mdPlayer.release();
+                    mdPlayer = null;
+                }
+            }
+        }, 17000);
     }
 
     @Override
@@ -123,5 +158,18 @@ public class MainActivity extends AppCompatActivity {
         if (tLeft > 0) {
             startCountdownTimer((int) (tLeft / 1000 / 60));
         }
+    }
+
+    private void saveTimeData(int totalMinutes) {
+        SharedPreferences sharedPreferences = getSharedPreferences("timerData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("lastUsedTime", totalMinutes);
+        editor.apply();
+    }
+
+    private void loadTimeData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("timerData", MODE_PRIVATE);
+        int totalMinutes = sharedPreferences.getInt("lastUsedTime", 0);
+        tedText.setText(String.valueOf(totalMinutes));
     }
 }

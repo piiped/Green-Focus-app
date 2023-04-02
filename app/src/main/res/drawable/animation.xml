@@ -7,5 +7,4 @@
     <item android:drawable="@drawable/tree4" android:duration="10000" />
     <item android:drawable="@drawable/tree5" android:duration="10000" />
     <item android:drawable="@drawable/tree6" android:duration="10000" />
-    <item android:drawable="@drawable/tree7" android:duration="10000" />
 </animation-list>

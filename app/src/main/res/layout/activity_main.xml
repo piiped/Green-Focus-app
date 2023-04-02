@@ -32,8 +32,8 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="515dp"
-            android:layout_marginTop="150dp"
+            android:layout_height="575dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/custom_card"
             app:cardBackgroundColor="@color/green"
             app:cardCornerRadius="50dp"
@@ -44,12 +44,13 @@
                 android:layout_width="165dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="250dp"
+                android:layout_marginTop="300dp"
                 android:fontFamily="@font/prompt_light"
                 android:gravity="center"
                 android:hint="Enter time (min)"
                 android:inputType="numberDecimal"
                 android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textSize="20dp" />
 
             <TextView
@@ -57,7 +58,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="350dp"
+                android:layout_marginTop="380dp"
                 android:fontFamily="@font/prompt_light"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -68,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="170dp"
                 android:background="@drawable/btn_login"
                 android:fontFamily="@font/prompt_bold"
                 android:text="Start Timer"
@@ -79,20 +80,32 @@
                 android:layout_width="230dp"
                 android:layout_height="230dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="150dp"
-                android:padding="20dp">
+                android:layout_marginTop="50dp"
+                android:padding="20dp"
+                app:cardCornerRadius="150dp">
 
                 <ImageView
                     android:id="@+id/animationImageView"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    android:maxWidth="200dp"
-                    android:maxHeight="200dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
+                    android:maxWidth="200dp"
+                    android:maxHeight="200dp"
                     android:src="@drawable/animation" />
             </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/vhButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="230dp"
+                android:background="@drawable/btn_login"
+                android:fontFamily="@font/prompt_bold"
+                android:text="OVERVIEW"
+                android:textColor="@color/dark_green"
+                android:textSize="20dp" />
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.cardview.widget.CardView>
