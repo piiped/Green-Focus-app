@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView rdText, ttView;
     String[] tArray;
-    Handler handler, alarmHandler;
+    Handler handler, alarmHandler, aniHandler;
     Runnable runnable;
     EditText tedText;
     Button sTB, vhButton;
@@ -30,7 +30,13 @@ public class MainActivity extends AppCompatActivity {
     AnimationDrawable anmDrawable;
     ImageView anmImgView, btHome;
     CountDownTimer cdTimer;
-
+    private  int[] imageArray = {
+            R.drawable.tree1, R.drawable.tree2, R.drawable.tree3,
+            R.drawable.tree4, R.drawable.tree5, R.drawable.tree6};
+    private int imageIndex;
+    boolean isReturning;
+    private int[] selectedImagesArray = {
+            R.drawable.tree8 };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
                 String timeText = tedText.getText().toString();
                 if (!timeText.isEmpty()) {
                     int timeInMinutes = Integer.parseInt(timeText);
-                    saveTimeData(timeInMinutes); // Save the time data when the timer starts
                     startCountdownTimer(timeInMinutes);
                 }
+                startImageAnimation();
             }
         });
 
@@ -76,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
                  startActivity(new Intent(MainActivity.this, MainActivity.class));
              }
          });
+        alarmHandler = new Handler();
+
         vhButton = findViewById(R.id.vhButton);
         vhButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +92,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        alarmHandler = new Handler();
-        loadTimeData();
+        anmImgView = findViewById(R.id.animationImageView);
+        aniHandler = new Handler();
     }
-
+    private void startImageAnimation() {
+        imageIndex = 0;
+        aniHandler.post(imageSwitcherRunnable);
+    }
+    private Runnable imageSwitcherRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (imageIndex < imageArray.length){
+                anmImgView.setImageResource(imageArray[imageIndex]);
+                imageIndex++;
+                aniHandler.postDelayed(this,15000);
+            }
+        }
+    };
+    private void startSelectedImagesAnimation() {
+        imageIndex = 0;
+        aniHandler.post(selectedImageSwitcherRunnable);
+    }
+    private Runnable selectedImageSwitcherRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (imageIndex < selectedImagesArray.length) {
+                anmImgView.setImageResource(selectedImagesArray[imageIndex]);
+                imageIndex++;
+                aniHandler.postDelayed(this, 10000);
+            }
+        }
+    };
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -116,14 +151,12 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 ttView.setText("Finished!");
                 playAlarmSound();
+
+                int totalTimeInMinutes = (int) (timerDurationMillis / 1000 / 60);
+                saveTimeData(totalTimeInMinutes);
             }
+
         }.start();
-
-        anmImgView = findViewById(R.id.animationImageView);
-        anmImgView.setBackgroundResource(R.drawable.animation);
-        AnimationDrawable anmDrawable = (AnimationDrawable) anmImgView.getBackground();
-        anmDrawable.start();
-
     }
 
     private void playAlarmSound(){
@@ -150,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             AnimationDrawable anmDrawable = (AnimationDrawable) anmImgView.getDrawable();
             anmDrawable.stop();
         }
+        isReturning = true;
     }
 
     @Override
@@ -158,18 +192,21 @@ public class MainActivity extends AppCompatActivity {
         if (tLeft > 0) {
             startCountdownTimer((int) (tLeft / 1000 / 60));
         }
+        if (isReturning) {
+            startSelectedImagesAnimation();
+            isReturning = true;
+        }
     }
 
     private void saveTimeData(int totalMinutes) {
         SharedPreferences sharedPreferences = getSharedPreferences("timerData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("lastUsedTime", totalMinutes);
+
+        long currentTimeMillis = System.currentTimeMillis();
+        String timeHistory = sharedPreferences.getString("timeHistory", "");
+        timeHistory += totalMinutes + "," + currentTimeMillis + ";";
+        editor.putString("timeHistory", timeHistory);
         editor.apply();
     }
 
-    private void loadTimeData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("timerData", MODE_PRIVATE);
-        int totalMinutes = sharedPreferences.getInt("lastUsedTime", 0);
-        tedText.setText(String.valueOf(totalMinutes));
-    }
 }

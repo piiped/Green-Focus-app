@@ -23,7 +23,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/prompt_light"
             android:gravity="center"
             android:textColor="@color/green"
@@ -86,13 +86,14 @@
 
                 <ImageView
                     android:id="@+id/animationImageView"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
                     android:maxWidth="200dp"
                     android:maxHeight="200dp"
-                    android:src="@drawable/animation" />
+                    android:src="@drawable/tree1" />
+
             </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatButton

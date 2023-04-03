@@ -4,14 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryActivity"
-    >
+    android:background="@color/green"
+    tools:context=".HistoryActivity">
 
     <TextView
-        android:id="@+id/thTextView"
+        android:id="@+id/overView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time History: "
-        android:textSize="18sp"
-        android:textColor="@android:color/black" />
+        android:fontFamily="@font/prompt_bold"
+        android:text="OVERVIEW"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.936"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.043" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="450dp"
+        android:layout_height="699dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.058">
+
+
+        <TextView
+            android:id="@+id/thTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/prompt_light"
+            android:gravity="center"
+            android:text="Time History: "
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="89dp"
+        android:layout_height="47dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.042"
+        app:srcCompat="@drawable/logo_white" />
 </androidx.constraintlayout.widget.ConstraintLayout>
