@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     Button sTB, vhButton;
     MediaPlayer mdPlayer;
     long tLeft;
-    AnimationDrawable anmDrawable;
     ImageView anmImgView, btHome;
     CountDownTimer cdTimer;
     private  int[] imageArray = {
@@ -70,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!timeText.isEmpty()) {
                     int timeInMinutes = Integer.parseInt(timeText);
                     startCountdownTimer(timeInMinutes);
+                    startImageAnimation();
                 }
-                startImageAnimation();
             }
         });
 
@@ -154,11 +153,15 @@ public class MainActivity extends AppCompatActivity {
 
                 int totalTimeInMinutes = (int) (timerDurationMillis / 1000 / 60);
                 saveTimeData(totalTimeInMinutes);
+
+                stopImageAnimation();
             }
 
         }.start();
     }
-
+    private void stopImageAnimation() {
+        aniHandler.removeCallbacks(imageSwitcherRunnable);
+    }
     private void playAlarmSound(){
         mdPlayer = MediaPlayer.create(this, R.raw.alarm);
         mdPlayer.start();
@@ -180,22 +183,26 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         if (cdTimer != null) {
             cdTimer.cancel();
-            AnimationDrawable anmDrawable = (AnimationDrawable) anmImgView.getDrawable();
-            anmDrawable.stop();
         }
+        stopImageAnimation();
+        startSelectedImagesAnimation();
         isReturning = true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (tLeft > 0) {
-            startCountdownTimer((int) (tLeft / 1000 / 60));
-        }
         if (isReturning) {
-            startSelectedImagesAnimation();
-            isReturning = true;
+            stopSelectedImagesAnimation();
+            if (tLeft > 0) {
+                startCountdownTimer((int) (tLeft / 1000 / 60));
+                startImageAnimation();
+            }
+            isReturning = false;
         }
+    }
+    private void stopSelectedImagesAnimation() {
+        aniHandler.removeCallbacks(selectedImageSwitcherRunnable);
     }
 
     private void saveTimeData(int totalMinutes) {
