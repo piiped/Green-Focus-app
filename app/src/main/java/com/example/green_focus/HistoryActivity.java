@@ -2,32 +2,36 @@ package com.example.green_focus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    TextView thTextView;
+    TextView thdTextView;
     ImageView imageView;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        thTextView = findViewById(R.id.thTextView);
+        thdTextView = findViewById(R.id.thdTextView);
         displayTimeHistory();
-
+        ImageView iconImageView = findViewById(R.id.imageView);
+        iconImageView.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -43,7 +47,7 @@ public class HistoryActivity extends AppCompatActivity {
         String timeHistory = sharedPreferences.getString("timeHistory", "");
 
         if (!timeHistory.isEmpty()) {
-            StringBuilder timeHistoryText = new StringBuilder("Time History:\n");
+            StringBuilder timeHistoryText = new StringBuilder("\n");
             String[] timeDataPairs = timeHistory.split(";");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
@@ -58,9 +62,9 @@ public class HistoryActivity extends AppCompatActivity {
                 timeHistoryText.append(String.format("%02d:%02d on %s\n", hours, remainingMinutes, date));
             }
 
-            thTextView.setText(timeHistoryText.toString());
+            thdTextView.setText(timeHistoryText.toString());
         } else {
-            thTextView.setText("Time History: No data");
+            thdTextView.setText("Time History: No data");
         }
     }
 
@@ -69,7 +73,7 @@ public class HistoryActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("timeHistory", "");
         editor.apply();
-        thTextView.setText("Time History: No data");
+        thdTextView.setText("Time History: No data");
     }
 
 }
