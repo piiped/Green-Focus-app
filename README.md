@@ -1,9 +1,11 @@
 # green_focus_app
 CMM346 Mobile App
-
 My first mobile app
 
+This is my application project when I was third year. This application is about social detoxification. It has a timer that keeps the tree growing when user don't play with the phone. If user exit the application, the tree will die and must start over. Suitable reading time. Used by Java.
+
 Example
+
 ![Screenshot 2024-06-06 081759](https://github.com/piiped/Green-Focus-app/assets/86151212/9398a19c-24e0-4d9f-a8e1-aab530299925)
 ![Screenshot 2024-06-06 081810](https://github.com/piiped/Green-Focus-app/assets/86151212/b76ba53a-ce2c-43f6-89c6-32b07c4bbe02)
 ![Screenshot 2024-06-06 081922](https://github.com/piiped/Green-Focus-app/assets/86151212/54e483db-6946-495a-ac2e-fa31b2634702)
